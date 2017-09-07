@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """"This script allows users to download entire folders from their Dropbox account using the Dropbox
-CLI.
+CLI. You need to be logged in locally into your Dropbox account using the CLI. For more info,
+please refer to the GitHub repo: https://github.com/dropbox/dbxcli
 
 NOTE: Assumes that the DBXCLI binary is in ./dbx (named dbx in the current working directory).
 Change location/name appropriately.
@@ -9,6 +10,7 @@ Change location/name appropriately.
 import os
 import sys
 import subprocess
+import argparse
 
 def run_cmd(cmd, return_output=False):
     """Run a shell command."""
@@ -66,12 +68,17 @@ def recurse_download(folder_name, file_list, preserve_capitals):
 
 def main():
     """Recursively downloads contents of specified folder name."""
-    folder_name = sys.argv[1]
-    preserve_capitals = sys.argv[2]
-    print "Accessing folder {0}".format(folder_name)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder_name", type=str, help="the folder from which you want to download")
+    parser.add_argument("-c", "--preserve_capitals", help="preserve files\' and folders\' \
+                capitalization as how they were in your Dropbox folder. WARNING: Some operating \
+                systems do not distinguish between upper- and lowercase. May lead to overwriting \
+                files", action="store_true")
+    args = parser.parse_args()
+    print "Accessing folder {0}".format(args.folder_name)
 
     file_list = {}
-    file_list = recurse_download(folder_name, file_list, preserve_capitals)
+    file_list = recurse_download(args.folder_name, file_list, args.preserve_capitals)
     print "Files downloaded"
 
 main()
