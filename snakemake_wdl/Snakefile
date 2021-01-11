@@ -1,4 +1,4 @@
 rule hello_world:
-    input: "name.txt"
+    input: "INPUTFILENAME"
     output: "greeting.txt"
-    shell: "echo -e \"Hello $(cat name.txt)!\" > greeting.txt"
+    shell: "echo -e \"Hello $(cat INPUTFILENAME)!\" > greeting.txt"

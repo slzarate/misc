@@ -3,7 +3,7 @@ version 1.0
 workflow hello_world {
     input {
         File snakemakeFile
-        File nameFile # needs to be named name.txt for this demonstration
+        File nameFile
     }
 
     call say_name {
@@ -23,9 +23,17 @@ task say_name {
         File nameFile
     }
 
+    String snakemakeName = "~{basename(snakemakeFile)}"
+    String inputName = "~{basename(nameFile)}"
+
     command <<<
+        snake_base="~{snakemakeName}"
+        name_base="~{inputName}"
+
         cp "~{snakemakeFile}" .
         cp "~{nameFile}" .
+
+        sed -i "s/INPUTFILENAME/${name_base}/g" ./"${snake_base}"
         snakemake --cores
     >>>
 
