@@ -24,7 +24,6 @@ task say_name {
     }
 
     command <<<
-        echo "hello"
         cp "~{snakemakeFile}" .
         cp "~{nameFile}" .
         snakemake --cores
