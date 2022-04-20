@@ -1,4 +1,0 @@
-rule hello_world:
-    input: "INPUTFILENAME"
-    output: "greeting.txt"
-    shell: "echo -e \"Hello $(cat INPUTFILENAME)!\" > greeting.txt"
